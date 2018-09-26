@@ -8,13 +8,27 @@
     <meta name="author" content="">
     <title>{{ title }}</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="https://udx.web.id/favico.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.png">
+    <!-- icon in the highest resolution we need it for -->
+    <link rel="icon" sizes="192x192" href="../static/img/favicon.png">
+    <!-- reuse same icon for Safari -->
+    <link rel="apple-touch-icon" href="../static/img/favicon.png">
+    <!-- multiple icons for IE -->
+    <meta name="msapplication-square310x310logo" content="../static/img/favicon.png">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#2777b5">
     <!-- Bootstrap core CSS-->
     <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin/css/sb-admin.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <script src="https://udx.web.id/static/automarked/js/jquery-3.3.1.min.js"></script>
     <script src="https://udx.web.id/static/automarked/js/bootstrap.min.js"></script>
     <script src="https://udx.web.id/static/automarked/js/custom.js"></script>
@@ -22,7 +36,7 @@
   <body>
     <div class="container">
             <div class="card card-register mx-auto mt-5">
-                <div class="card-header"><img class="mx-auto d-block" src="../static/img/NETCONF3.png" alt="" height="50"></div>
+                <div class="card-header" style="background-color: #2777b5"><img class="mx-auto d-block" src="../static/img/logo.png" alt="{{ app_name }}" height="50"></div>
                 <div class="card-body">
                 <form method="POST" action="/signup">
                     {{ form.hidden_tag() }}
@@ -67,20 +81,6 @@
                         </label>
                     </div>
                     </div>
-                    {% if sign_err %}
-                    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                        <strong>Holy shit, mothefucker!</strong><br/>
-                        {{ sign_err }}
-                    </div>
-                    {% endif %}
-              
-                    {% if sign_msg %}
-                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                        <strong>Success!</strong><br/>
-                        {{ sign_msg }}.
-                        This page will not redirect automatically, please edit url to `/dashboard` manually.
-                    </div>
-                    {% endif %}
               
                     {% if form.errors %}
                       {% for field in form.errors %}
@@ -94,11 +94,17 @@
                       {% endif %}
                       {% endfor %}
                     {% endif %}
+                    {% if _err %}
+                      <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                          <strong>Get the fuck out here!</strong><br/>
+                          {{ _err }}
+                      </div>
+                    {% endif %}
                     <button class="btn btn-info btn-block" type="submit">Register</button>
                 </form>
                 <div class="text-center">
                     <a class="d-block small mt-3" href="/login">Login Page</a>
-                    <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+                    <a class="d-block small" href="/forgot_password">Forgot Password?</a>
                 </div>
                 </div>
             </div>
@@ -108,5 +114,14 @@
     <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        {% if loop.index <= 1 %}
+        <script>toastr["{{ category }}"]("{{ message }}")</script>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
   </body>
 </html>

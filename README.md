@@ -13,7 +13,7 @@ $ pip install pipenv
 3. Install environment
 
 ```bash
-$ cd flask-login
+$ cd automarked
 $ pipenv install --dev
 ```
 4. Run app
